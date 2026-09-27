@@ -1,0 +1,8 @@
+{
+  "name": "@saas/database",
+  "version": "1.0.0",
+  "scripts": {
+    "migrate": "echo 'Ejecutando migraciones SQL...' && exit 0",
+    "seed": "echo 'Inyectando semillero oficial...' && exit 0"
+  }
+}

@@ -1,0 +1,62 @@
+# =====================================================================
+# COLECCION DE PRUEBAS HTTP - SAAS CONTABLE UNIPUTUMAYO (SALA 121)
+# Requiere la extension "REST Client" (Huachao Mao) en VS Code
+# =====================================================================
+
+@baseUrl = http://localhost:3000/api/v1
+@mockUrl = http://localhost:3001
+
+### 1. Autenticacion de Usuario (Login)
+# @name login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@ferreputumayo.co",
+  "password": "Password123*"
+}
+
+### Extraer Token
+@token = {{login.response.body.accessToken}}
+
+### 2. Consultar Catalogo de Productos (Inventario)
+GET {{baseUrl}}/inventory/products
+Authorization: Bearer {{token}}
+
+### 3. Venta Mostrador POS en Efectivo (Liquidacion)
+POST {{baseUrl}}/pos/checkout
+Authorization: Bearer {{token}}
+X-Idempotency-Key: a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d
+Content-Type: application/json
+
+{
+  "branchId": "00000000-0000-0000-0000-000000000001",
+  "paymentMethod": "EFECTIVO",
+  "cashTendered": 100000,
+  "items": [
+    {
+      "productId": "00000000-0000-0000-0000-000000000002",
+      "quantity": 2,
+      "unitPrice": 32000,
+      "taxRate": 0.19
+    }
+  ]
+}
+
+### 4. Consultar Cartera de Fiados
+GET {{baseUrl}}/credits/customers
+Authorization: Bearer {{token}}
+
+### 5. Registrar Abono a Fiado de Cliente
+POST {{baseUrl}}/credits/customers/00000000-0000-0000-0000-000000000003/payments
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "amount": 50000,
+  "paymentMethod": "EFECTIVO"
+}
+
+### 6. Consultar Balance General
+GET {{baseUrl}}/accounting/reports/balance-sheet?cutOffDate=2026-12-31
+Authorization: Bearer {{token}}

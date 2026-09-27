@@ -1,0 +1,255 @@
+openapi: 3.0.3
+info:
+  title: SaaS Empresarial Contable y POS UniPutumayo
+  description: Contrato maestro unificado de APIs para los 8 Escuadrones de Ingenieria.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Servidor Backend Real NestJS (Puerto 3000)
+  - url: http://localhost:3001
+    description: Mock Server Local Prism (Puerto 3001)
+
+paths:
+  /auth/login:
+    post:
+      summary: Autenticacion de usuario y emision de token JWT
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  example: admin@ferreputumayo.co
+                password:
+                  type: string
+                  example: Password123*
+      responses:
+        '200':
+          description: Sesion exitosa
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 00000000-0000-0000-0000-000000000001
+                      tenantId:
+                        type: string
+                        example: 11111111-1111-1111-1111-111111111111
+                      fullName:
+                        type: string
+                        example: Anderson Stiven Moncayo
+                      role:
+                        type: string
+                        example: OWNER
+
+  /inventory/products:
+    get:
+      summary: Catalogo de productos con stock y precios
+      tags: [Inventory]
+      responses:
+        '200':
+          description: Listado de productos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 00000000-0000-0000-0000-000000000002
+                    sku:
+                      type: string
+                      example: CEM-001
+                    barcode:
+                      type: string
+                      example: "7701234567890"
+                    name:
+                      type: string
+                      example: Cemento Gris Argos 50kg
+                    unitOfMeasure:
+                      type: string
+                      example: BULTO
+                    costPrice:
+                      type: number
+                      example: 24500.00
+                    salePrice:
+                      type: number
+                      example: 32000.00
+                    taxRate:
+                      type: number
+                      example: 0.19
+                    stockOnHand:
+                      type: number
+                      example: 145.000
+
+  /pos/checkout:
+    post:
+      summary: Liquidacion de venta de mostrador POS
+      tags: [POS]
+      parameters:
+        - in: header
+          name: X-Idempotency-Key
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [branchId, paymentMethod, items]
+              properties:
+                branchId:
+                  type: string
+                  example: 00000000-0000-0000-0000-000000000001
+                paymentMethod:
+                  type: string
+                  enum: [EFECTIVO, TRANSFERENCIA_NEQUI_DAVIPLATA, CREDITO_FIADO]
+                  example: EFECTIVO
+                cashTendered:
+                  type: number
+                  example: 100000.00
+                customerId:
+                  type: string
+                  example: 00000000-0000-0000-0000-000000000003
+                items:
+                  type: array
+                  items:
+                    type: object
+                    required: [productId, quantity, unitPrice]
+                    properties:
+                      productId:
+                        type: string
+                        example: 00000000-0000-0000-0000-000000000002
+                      quantity:
+                        type: number
+                        example: 2.0
+                      unitPrice:
+                        type: number
+                        example: 32000.00
+                      taxRate:
+                        type: number
+                        example: 0.19
+      responses:
+        '201':
+          description: Venta liquidada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  invoiceId:
+                    type: string
+                    example: 99999999-9999-9999-9999-999999999999
+                  invoiceNumber:
+                    type: string
+                    example: SUC01-POS-000412
+                  grandTotal:
+                    type: number
+                    example: 76160.00
+                  changeDue:
+                    type: number
+                    example: 23840.00
+                  status:
+                    type: string
+                    example: COMPLETED
+
+  /credits/customers:
+    get:
+      summary: Consulta de clientes con cupo fiado y deuda actual
+      tags: [Credits]
+      responses:
+        '200':
+          description: Cartera de clientes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 00000000-0000-0000-0000-000000000003
+                    documentNumber:
+                      type: string
+                      example: "1061808735"
+                    name:
+                      type: string
+                      example: Juan Carlos Perez
+                    phone:
+                      type: string
+                      example: "3124567890"
+                    creditLimit:
+                      type: number
+                      example: 800000.00
+                    currentDebt:
+                      type: number
+                      example: 351100.00
+                    availableCredit:
+                      type: number
+                      example: 448900.00
+
+  /credits/customers/{id}/payments:
+    post:
+      summary: Registro de abono a cuenta fiada
+      tags: [Credits]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amount, paymentMethod]
+              properties:
+                amount:
+                  type: number
+                  example: 50000.00
+                paymentMethod:
+                  type: string
+                  example: EFECTIVO
+      responses:
+        '201':
+          description: Abono registrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  paymentId:
+                    type: string
+                    example: 88888888-8888-8888-8888-888888888888
+                  customerName:
+                    type: string
+                    example: Juan Carlos Perez
+                  amountPaid:
+                    type: number
+                    example: 50000.00
+                  previousDebt:
+                    type: number
+                    example: 351100.00
+                  balanceAfter:
+                    type: number
+                    example: 301100.00

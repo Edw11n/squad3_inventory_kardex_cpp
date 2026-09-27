@@ -1,0 +1,23 @@
+{
+  "name": "saas-contable-uniputumayo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sistema SaaS Empresarial Contable, POS y Gestion Comercial Multi-Tenant - UniPutumayo",
+  "author": "Anderson Stiven Moncayo Bermeo <ANDERSONSMONCAYO@GMAIL.COM>",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
+    "db:migrate": "pnpm --filter @saas/database migrate",
+    "db:seed": "pnpm --filter @saas/database seed",
+    "mock:server": "npx @stoplight/prism-cli mock openapi.yaml -p 3001"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.14",
+    "typescript": "^5.5.4",
+    "@stoplight/prism-cli": "^5.8.2"
+  },
+  "packageManager": "pnpm@9.7.1"
+}
