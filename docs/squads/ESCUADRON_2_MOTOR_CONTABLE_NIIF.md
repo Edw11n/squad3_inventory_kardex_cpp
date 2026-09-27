@@ -1,4 +1,4 @@
-# GUÍA INDIVIDUAL DE TRABAJO: ESCUADRÓN 2
+﻿# GUÍA INDIVIDUAL DE TRABAJO: ESCUADRÓN 2
 ## MOTOR CONTABLE & PARTIDA DOBLE NIIF (ACCOUNTING ENGINE)
 ### DIPLOMADO DE OPCIÓN DE GRADO EN DESARROLLO DE SOFTWARE 4.0 (MÓDULOS 4 Y 5)
 **Institución Universitaria del Putumayo - UniPutumayo (Sede Mocoa)**  
@@ -6,6 +6,26 @@
 **Programa:** Tecnología en Desarrollo de Software (VI Semestre)  
 **Docente Titular y Arquitecto Principal:** Anderson Stiven Moncayo Bermeo  
 **Espacio de Trabajo:** Sala de Cómputo 121  
+
+
+## 0. REPOSITORIO CENTRAL OFICIAL DEL PROYECTO
+Todos los integrantes del escuadrón deben clonar el repositorio central en GitHub y crear su rama de trabajo:
+
+```bash
+# 1. Clonar el repositorio oficial
+git clone https://github.com/AndersonMoncayo/saas-contable-uniputumayo.git
+cd saas-contable-uniputumayo
+
+# 2. Configurar variables e instalar dependencias
+cp .env.example .env
+pnpm install
+
+# 3. Iniciar infraestructura de base de datos y cache
+docker compose up -d
+
+# 4. Crear la rama oficial de su escuadron (NUNCA hacer commits en main)
+git checkout -b squad-2/feature-nombre-modulo
+```
 
 ---
 
@@ -254,3 +274,4 @@ Cuando el profesor se acerque a su puesto, deben mostrarle en menos de 60 segund
 - [ ] Ejecutar una consulta SQL sobre `journal_entry_lines` del último asiento de venta y mostrar:
   `SUM(debit_amount) - SUM(credit_amount) = 0.00`.
 - [ ] Mostrar en el código que los asientos en estado `POSTED` no tienen sentencia `UPDATE` ni `DELETE` (inmutabilidad estricta).
+

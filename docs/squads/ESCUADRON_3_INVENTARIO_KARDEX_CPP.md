@@ -1,4 +1,4 @@
-# GUÍA INDIVIDUAL DE TRABAJO: ESCUADRÓN 3
+﻿# GUÍA INDIVIDUAL DE TRABAJO: ESCUADRÓN 3
 ## INVENTARIO MULTI-BODEGA & KARDEX PROMEDIO PONDERADO (CPP)
 ### DIPLOMADO DE OPCIÓN DE GRADO EN DESARROLLO DE SOFTWARE 4.0 (MÓDULOS 4 Y 5)
 **Institución Universitaria del Putumayo - UniPutumayo (Sede Mocoa)**  
@@ -6,6 +6,26 @@
 **Programa:** Tecnología en Desarrollo de Software (VI Semestre)  
 **Docente Titular y Arquitecto Principal:** Anderson Stiven Moncayo Bermeo  
 **Espacio de Trabajo:** Sala de Cómputo 121  
+
+
+## 0. REPOSITORIO CENTRAL OFICIAL DEL PROYECTO
+Todos los integrantes del escuadrón deben clonar el repositorio central en GitHub y crear su rama de trabajo:
+
+```bash
+# 1. Clonar el repositorio oficial
+git clone https://github.com/AndersonMoncayo/saas-contable-uniputumayo.git
+cd saas-contable-uniputumayo
+
+# 2. Configurar variables e instalar dependencias
+cp .env.example .env
+pnpm install
+
+# 3. Iniciar infraestructura de base de datos y cache
+docker compose up -d
+
+# 4. Crear la rama oficial de su escuadron (NUNCA hacer commits en main)
+git checkout -b squad-3/feature-nombre-modulo
+```
 
 ---
 
@@ -231,3 +251,4 @@ WHERE p.sku = 'CEM-001';
 Cuando el profesor se acerque a su puesto, deben mostrarle en menos de 60 segundos:
 - [ ] La tabla `stock_moves` mostrando movimientos inmutables con stock anterior y stock nuevo calculados con precisión.
 - [ ] Demostrar el recálculo matemático del Costo Promedio Ponderado al ingresar un producto a un precio mayor que el existente.
+

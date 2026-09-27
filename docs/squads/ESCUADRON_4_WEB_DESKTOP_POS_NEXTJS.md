@@ -1,4 +1,4 @@
-# GUÍA INDIVIDUAL DE TRABAJO: ESCUADRÓN 4
+﻿# GUÍA INDIVIDUAL DE TRABAJO: ESCUADRÓN 4
 ## WEB DESKTOP ADMIN & HIGH-SPEED POS (NEXT.JS 15)
 ### DIPLOMADO DE OPCIÓN DE GRADO EN DESARROLLO DE SOFTWARE 4.0 (MÓDULOS 4 Y 5)
 **Institución Universitaria del Putumayo - UniPutumayo (Sede Mocoa)**  
@@ -6,6 +6,26 @@
 **Programa:** Tecnología en Desarrollo de Software (VI Semestre)  
 **Docente Titular y Arquitecto Principal:** Anderson Stiven Moncayo Bermeo  
 **Espacio de Trabajo:** Sala de Cómputo 121  
+
+
+## 0. REPOSITORIO CENTRAL OFICIAL DEL PROYECTO
+Todos los integrantes del escuadrón deben clonar el repositorio central en GitHub y crear su rama de trabajo:
+
+```bash
+# 1. Clonar el repositorio oficial
+git clone https://github.com/AndersonMoncayo/saas-contable-uniputumayo.git
+cd saas-contable-uniputumayo
+
+# 2. Configurar variables e instalar dependencias
+cp .env.example .env
+pnpm install
+
+# 3. Iniciar infraestructura de base de datos y cache
+docker compose up -d
+
+# 4. Crear la rama oficial de su escuadron (NUNCA hacer commits en main)
+git checkout -b squad-4/feature-nombre-modulo
+```
 
 ---
 
@@ -236,7 +256,7 @@ export function usePosKeyboardShortcuts(
 
 ## 6. CÓMO PRUEBAN SU TRABAJO DE FORMA DESACOPLADA (SIN ESPERAR AL BACKEND)
 1. Abran una terminal y ejecuten el Mock Server:
-   ```bash
+   ```b`ash
    npx @stoplight/prism-cli mock openapi.yaml -p 3001
    ```
 2. En `apps/web/.env.local` configuren:
@@ -244,7 +264,7 @@ export function usePosKeyboardShortcuts(
    NEXT_PUBLIC_API_URL=http://localhost:3001
    ```
 3. Inicien Next.js:
-   ```bash
+   ```b`ash
    pnpm --filter web dev
    ```
 4. Abran `http://localhost:4000/pos`. Presionen `F2`, busquen un producto sintético devuelto por Prism, presionen `F9` para cobrar, ingresen el efectivo y presionen `Enter`. La orden debe completarse con éxito.
@@ -255,3 +275,4 @@ export function usePosKeyboardShortcuts(
 Cuando el profesor se acerque a su puesto, deben mostrarle en menos de 60 segundos:
 - [ ] Liquidar una venta completa operando 100% por teclado (`F2` para buscar, `F4` cliente, `F9` cobrar, `Enter` liquidar).
 - [ ] Mostrar que los precios, subtotales y devueltas usan tipografía tabular monoespaciada (`font-mono tabular-nums`).
+

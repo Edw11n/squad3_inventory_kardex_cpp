@@ -1,4 +1,4 @@
-# GUÍA INDIVIDUAL DE TRABAJO: ESCUADRÓN 5
+﻿# GUÍA INDIVIDUAL DE TRABAJO: ESCUADRÓN 5
 ## MOBILE POS NATIVE FLUTTER (ANDROID & IOS) & OFFLINE-FIRST
 ### DIPLOMADO DE OPCIÓN DE GRADO EN DESARROLLO DE SOFTWARE 4.0 (MÓDULOS 4 Y 5)
 **Institución Universitaria del Putumayo - UniPutumayo (Sede Mocoa)**  
@@ -6,6 +6,26 @@
 **Programa:** Tecnología en Desarrollo de Software (VI Semestre)  
 **Docente Titular y Arquitecto Principal:** Anderson Stiven Moncayo Bermeo  
 **Espacio de Trabajo:** Sala de Cómputo 121  
+
+
+## 0. REPOSITORIO CENTRAL OFICIAL DEL PROYECTO
+Todos los integrantes del escuadrón deben clonar el repositorio central en GitHub y crear su rama de trabajo:
+
+```bash
+# 1. Clonar el repositorio oficial
+git clone https://github.com/AndersonMoncayo/saas-contable-uniputumayo.git
+cd saas-contable-uniputumayo
+
+# 2. Configurar variables e instalar dependencias
+cp .env.example .env
+pnpm install
+
+# 3. Iniciar infraestructura de base de datos y cache
+docker compose up -d
+
+# 4. Crear la rama oficial de su escuadron (NUNCA hacer commits en main)
+git checkout -b squad-5/feature-nombre-modulo
+```
 
 ---
 
@@ -192,7 +212,7 @@ class SyncQueueWorker {
 ## 6. CÓMO PRUEBAN SU TRABAJO DE FORMA DESACOPLADA (SIN ESPERAR AL BACKEND)
 1. Conecten su emulador a `http://10.0.2.2:3001` (donde corre el Mock Server de Prism).
 2. Ejecuten la app:
-   ```bash
+   ```b`ash
    cd apps/mobile
    flutter pub get
    flutter run
@@ -208,3 +228,4 @@ class SyncQueueWorker {
 Cuando el profesor se acerque a su puesto, deben mostrarle en menos de 60 segundos:
 - [ ] Venta realizada en Modo Avión sin pantalla roja, persistida en Isar DB local.
 - [ ] Reconexión a red con sincronización automática hacia la API mediante clave de idempotencia (`X-Idempotency-Key`).
+

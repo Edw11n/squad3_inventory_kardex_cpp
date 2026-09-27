@@ -1,4 +1,4 @@
-# GUÍA INDIVIDUAL DE TRABAJO: ESCUADRÓN 8
+﻿# GUÍA INDIVIDUAL DE TRABAJO: ESCUADRÓN 8
 ## DEVOPS, SRE, INFRAESTRUCTURA UNIVERSAL & QA AUTOMATION
 ### DIPLOMADO DE OPCIÓN DE GRADO EN DESARROLLO DE SOFTWARE 4.0 (MÓDULOS 4 Y 5)
 **Institución Universitaria del Putumayo - UniPutumayo (Sede Mocoa)**  
@@ -6,6 +6,26 @@
 **Programa:** Tecnología en Desarrollo de Software (VI Semestre)  
 **Docente Titular y Arquitecto Principal:** Anderson Stiven Moncayo Bermeo  
 **Espacio de Trabajo:** Sala de Cómputo 121  
+
+
+## 0. REPOSITORIO CENTRAL OFICIAL DEL PROYECTO
+Todos los integrantes del escuadrón deben clonar el repositorio central en GitHub y crear su rama de trabajo:
+
+```bash
+# 1. Clonar el repositorio oficial
+git clone https://github.com/AndersonMoncayo/saas-contable-uniputumayo.git
+cd saas-contable-uniputumayo
+
+# 2. Configurar variables e instalar dependencias
+cp .env.example .env
+pnpm install
+
+# 3. Iniciar infraestructura de base de datos y cache
+docker compose up -d
+
+# 4. Crear la rama oficial de su escuadron (NUNCA hacer commits en main)
+git checkout -b squad-8/feature-nombre-modulo
+```
 
 ---
 
@@ -222,11 +242,11 @@ export default function () {
 
 ## 6. CÓMO PRUEBAN SU TRABAJO DE FORMA DESACOPLADA
 1. Verifiquen la salud de los contenedores en terminal:
-   ```bash
+   ```b`ash
    docker compose ps
    ```
 2. Ejecuten el test de carga en K6:
-   ```bash
+   ```b`ash
    k6 run tests/k6/load-test-pos.js
    ```
    Comprueben que la métrica `http_req_duration` muestre `p(95) < 300ms`.
@@ -237,3 +257,4 @@ export default function () {
 Cuando el profesor se acerque a su puesto, deben mostrarle en menos de 60 segundos:
 - [ ] La salida de `docker compose ps` con PostgreSQL y Redis en estado `healthy`.
 - [ ] El terminal de GitHub Actions o ejecución local mostrando las pruebas pasando al 100% y el reporte de K6 con latencia < 300ms.
+

@@ -1,4 +1,4 @@
-# GUÍA INDIVIDUAL DE TRABAJO: ESCUADRÓN 6
+﻿# GUÍA INDIVIDUAL DE TRABAJO: ESCUADRÓN 6
 ## REPORTES FINANCIEROS, ANULACIÓN AUDITADA & PERIFÉRICOS POS
 ### DIPLOMADO DE OPCIÓN DE GRADO EN DESARROLLO DE SOFTWARE 4.0 (MÓDULOS 4 Y 5)
 **Institución Universitaria del Putumayo - UniPutumayo (Sede Mocoa)**  
@@ -6,6 +6,26 @@
 **Programa:** Tecnología en Desarrollo de Software (VI Semestre)  
 **Docente Titular y Arquitecto Principal:** Anderson Stiven Moncayo Bermeo  
 **Espacio de Trabajo:** Sala de Cómputo 121  
+
+
+## 0. REPOSITORIO CENTRAL OFICIAL DEL PROYECTO
+Todos los integrantes del escuadrón deben clonar el repositorio central en GitHub y crear su rama de trabajo:
+
+```bash
+# 1. Clonar el repositorio oficial
+git clone https://github.com/AndersonMoncayo/saas-contable-uniputumayo.git
+cd saas-contable-uniputumayo
+
+# 2. Configurar variables e instalar dependencias
+cp .env.example .env
+pnpm install
+
+# 3. Iniciar infraestructura de base de datos y cache
+docker compose up -d
+
+# 4. Crear la rama oficial de su escuadron (NUNCA hacer commits en main)
+git checkout -b squad-6/feature-nombre-modulo
+```
 
 ---
 
@@ -243,3 +263,4 @@ Verifiquen en la base de datos que `invoices.status` sea `'VOIDED'` y que exista
 Cuando el profesor se acerque a su puesto, deben mostrarle en menos de 60 segundos:
 - [ ] Ejecutar `GET /api/v1/accounting/reports/balance-sheet` y mostrar que `summary.equationValid: true` con diferencia 0.00.
 - [ ] Anular una venta y demostrar que el stock en bodega se incrementó y se emitió el contra-asiento correspondiente.
+
